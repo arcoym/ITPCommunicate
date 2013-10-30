@@ -1,0 +1,166 @@
+<html>
+	<head>
+		<title>Communicate with ITP</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="http://cdn.peerjs.com/0.3/peer.js"></script>
+
+		<script type="text/javascript">
+			var myvideo = null;
+			var mystream = null;
+			var mypeerid = null;
+			//var peer = null;
+			
+			var peer = new Peer({
+  				host: 'drake.itp.tsoa.nyu.edu',
+				port: 9000
+			});
+
+			var init = function() {
+				myvideo = document.getElementById('myvideo');
+			
+				window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
+				navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+				
+				if (navigator.getUserMedia) {
+					// http://src.chromium.org/svn/trunk/src/chrome/test/data/webrtc/manual/constraints.html
+					navigator.getUserMedia({video: true, audio: false}, function(stream) {
+						mystream = stream;
+						myvideo.src = window.URL.createObjectURL(stream) || stream;
+						myvideo.play();
+						}, function(err) {
+							console.log('Failed to get local stream' ,err);
+							alert("Failed to get local stream " + err);
+						}
+					);
+				}	
+				
+				//peer = new Peer({key: 'u8o4s2ng74dyrpb9'});
+				
+				peer.on('open', function(id) {
+				  console.log('My peer ID is: ' + id);
+				  mypeerid = id;
+				});
+
+				
+				
+				peer.on('call', function(call) {
+					call.answer(mystream);
+
+					call.on('stream', function(remoteStream) {
+
+				      		var othervideo = document.getElementById("myvideo2");
+							othervideo.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+							//document.body.appendChild(othervideo);
+							othervideo.play();
+				    });					
+				});
+				
+						 	 
+			};	
+			
+			var placecall = function() {
+				
+					var call = peer.call(document.getElementById('other_peer_id').value, mystream);
+						call.on('stream', function(remoteStream) {
+						// Show stream in some video/canvas element.
+						
+							var othervideo = document.getElementById("myvideo2");
+							othervideo.src = window.URL.createObjectURL(remoteStream) || remoteStream;
+							//document.body.appendChild(othervideo);
+							othervideo.play();
+					});
+				};	
+		</script>
+
+
+		<script type="text/javascript">
+
+
+    		function grayClick() {
+			 	var d = document.getElementsByTagName("video");
+			    //console.log(d.className);
+				for(var i=0; i<d.length; i++) {
+					d[i].className = "grayscale"
+				}
+			}
+
+			function blurClick() {
+			 	var d = document.getElementsByTagName("video");
+			    console.log(d.className);
+    			for (var i=0; i<d.length; i++) {
+    				d[i].className = "blur"
+    			}
+			}
+
+			function invertClick() {
+			 	var d = document.getElementsByTagName("video");
+			    for(var i=0; i<d.length; i++) {
+    				d[i].className = "invert"
+				}
+				console.log(d.className);
+			}
+			
+			function brightnessClick() {
+			 	var d = document.getElementsByTagName("video");
+			 	for(var i=0; i<d.length; i++) {
+    				d[i].className = "brightness"
+				}
+			}
+
+			function sepiaClick() {
+			 	var d = document.getElementsByTagName("video");
+    			for(var i=0; i<d.length; i++) {
+    				d[i].className = "sepia"
+				}
+			}
+
+			function off() {
+			 	var d = document.getElementsByTagName("video");
+			    console.log(d.className);
+    			for(var i=0; i<d.length; i++) {    			
+    				d[i].className = "off"
+				}
+			}
+				//var filterSwitch = document.getElementById("picture");
+			
+			//function addClass(obj) {
+			//	obj.className="grayScale";
+			//}	
+
+			//	function grayScale() {
+			//		console.log("yep, works");
+			//		filterSwitch.grayScale;
+			//	}
+
+		</script>
+
+	</head>
+
+	<body onload="init()">
+	<img src="http://166.78.159.225/~arc507/uploads/Frame.png" id="pic">
+	<img src= "http://166.78.159.225/~arc507/uploads/Call_Signs1.png" class="pos1">
+	<img src= "http://166.78.159.225/~arc507/uploads/Call_Signs2.png" class="pos2">
+		
+	<div id="buttonContainer">		
+		<button id="button" onclick="grayClick()">Gray Scale</button>
+		<button id="button" onclick="blurClick()">Blur</button>
+		<button id="button" onclick="invertClick()">Invert</button>
+		<button id="button" onclick="brightnessClick()">Brightness</button>
+		<button id="button" onclick="sepiaClick()">Sepia</button>
+		<button id="button" onclick="off()">Filter Off</button>
+	</div>
+
+		<p>
+		<div class="container">
+			<div id="container1">
+				<video id="myvideo" class ="clip"></video>
+			</div>
+
+			<div id="container2">
+				<video id="myvideo2" class ="clip"></video>
+			</div> 
+		</div>
+		<input type="text" id="other_peer_id">
+		<button value="Call" onclick="placecall()">
+	</body>
+</html>

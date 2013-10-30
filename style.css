@@ -1,0 +1,102 @@
+
+body {
+	background-image:url(http://166.78.159.225/~arc507/uploads/Frame.png); 
+	background-size: cover;
+	background-repeat:no-repeat;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	position: absolute; 
+	top:0; 
+	left:0;
+};
+ 
+video {
+	position: absolute;
+	top: 30px;
+	left: 100px;
+	z-index:2;
+}
+
+button {
+	top:20px;
+	left:0px;
+	margin:5px;
+	margin-left: 5px;
+}
+
+
+#myvideo {
+	margin-left:-170px;
+	height:100%;
+	overflow: hidden;
+}
+
+#myvideo2 {
+	margin-left:-170px;
+	height:100%;
+	overflow: hidden;
+}
+
+#container1 {
+	width: 50%;
+	overflow: hidden;
+	float: left;
+}
+
+#container2 {
+	width: 50%;
+	overflow: hidden;
+}
+
+#buttonContainer {
+	position:absolute;
+	height: 20px;
+	width: 500px;
+	z-index:5;
+}
+
+#pic {
+	position: absolute;
+	top:0px;
+	left:0px;
+	width: 100%;
+	height: 100%;
+	z-index: 4;
+}
+
+.container{
+	width: 100%;
+	height:100%;
+	overflow: hidden;
+	display: block;
+}
+
+.clip {
+	    margin-left: 0px;
+}
+
+.pos1 {
+	position: absolute;
+	width: 350px;
+	height:auto;
+	top:60px;
+	left:450px;
+	z-index: 4;
+}
+
+.pos2 {
+	position: absolute;
+	width: 500px;
+	height:auto;
+	bottom:40px;
+	right:45px;
+	z-index: 4;
+}
+
+.off {-webkit-filter: none;}
+.sepia {-webkit-filter: sepia(100%);}
+.grayscale {-webkit-filter: grayscale(100%);}
+.blur {-webkit-filter: blur(9px);}
+.invert {-webkit-filter: invert(100%);}
+.brightness {-webkit-filter: brightness(2);}
